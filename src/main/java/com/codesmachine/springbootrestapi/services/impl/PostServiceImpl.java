@@ -1,26 +1,37 @@
 package com.codesmachine.springbootrestapi.services.impl;
 
+import com.codesmachine.springbootrestapi.domain.Comment;
 import com.codesmachine.springbootrestapi.domain.Post;
 import com.codesmachine.springbootrestapi.dtos.PostDto;
 import com.codesmachine.springbootrestapi.dtos.PostPageResponseDto;
 import com.codesmachine.springbootrestapi.exceptions.ResourceNotFoundException;
+import com.codesmachine.springbootrestapi.repositories.CommentRepository;
 import com.codesmachine.springbootrestapi.repositories.PostRepository;
 import com.codesmachine.springbootrestapi.services.PostService;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class PostServiceImpl implements PostService {
 
     @Autowired
     private PostRepository postRepository;
+
+    @Autowired
+    private CommentRepository commentRepository;
+
+    @Autowired
+    private ModelMapper modelMapper;
 
     @Override
     public PostDto createPost(PostDto postDto) {
@@ -37,21 +48,23 @@ public class PostServiceImpl implements PostService {
 
     // Converting Post Entity to Post DTO
     private PostDto convertPostToDto(Post post){
-        PostDto postDto = new PostDto();
-        postDto.setId(post.getId());
-        postDto.setTitle(post.getTitle());
-        postDto.setDescription(post.getDescription());
-        postDto.setContent(post.getContent());
+        PostDto postDto = modelMapper.map(post,PostDto.class);
+//        PostDto postDto = new PostDto();
+//        postDto.setId(post.getId());
+//        postDto.setTitle(post.getTitle());
+//        postDto.setDescription(post.getDescription());
+//        postDto.setContent(post.getContent());
         return postDto;
     }
 
     // Convert PostDto to PostEntity
     private Post convertDtoToPost(PostDto postDto){
-        Post post = new Post();
-        post.setId(postDto.getId());
-        post.setTitle(postDto.getTitle());
-        post.setDescription(postDto.getDescription());
-        post.setContent(postDto.getContent());
+        Post post = modelMapper.map(postDto,Post.class);
+//        Post post = new Post();
+//        post.setId(postDto.getId());
+//        post.setTitle(postDto.getTitle());
+//        post.setDescription(postDto.getDescription());
+//        post.setContent(postDto.getContent());
         return post;
     }
 

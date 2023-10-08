@@ -4,6 +4,7 @@ import com.codesmachine.springbootrestapi.dtos.PostDto;
 import com.codesmachine.springbootrestapi.dtos.PostPageResponseDto;
 import com.codesmachine.springbootrestapi.services.impl.PostServiceImpl;
 import com.codesmachine.springbootrestapi.utils.AppConstants;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,8 +22,14 @@ public class PostController {
 
     // Create Blog Post rest api
     @PostMapping
-    public ResponseEntity<PostDto> createPost(@RequestBody PostDto postDto){
+    public ResponseEntity<PostDto> createPost(@Valid @RequestBody PostDto postDto){
         return new ResponseEntity<>(postService.createPost(postDto), HttpStatus.CREATED);
+    }
+
+    // Update Blog Post by id
+    @PutMapping("/{id}/update")
+    public ResponseEntity<PostDto> updatePost(@Valid @RequestBody PostDto postDto,@PathVariable(name = "id") String postId){
+        return ResponseEntity.ok(postService.updatePost(postDto,postId));
     }
 
     // Get all Blog Posts rest api
@@ -49,11 +56,7 @@ public class PostController {
         return ResponseEntity.ok(postService.getPostById(postId));
     }
 
-    // Update Blog Post by id
-    @PutMapping("/{id}/update")
-    public ResponseEntity<PostDto> updatePost(@RequestBody PostDto postDto,@PathVariable(name = "id") String postId){
-        return ResponseEntity.ok(postService.updatePost(postDto,postId));
-    }
+
 
 
     // Delete Blog Post rest api
