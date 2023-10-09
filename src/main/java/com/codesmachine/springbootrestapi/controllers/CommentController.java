@@ -3,6 +3,7 @@ package com.codesmachine.springbootrestapi.controllers;
 import com.codesmachine.springbootrestapi.dtos.CommentDto;
 import com.codesmachine.springbootrestapi.services.CommentService;
 import com.codesmachine.springbootrestapi.services.impl.CommentServiceImpl;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +20,7 @@ public class CommentController {
 
 
     @PostMapping
-    public ResponseEntity<CommentDto> createComment(@PathVariable (value = "postId") String postId, @RequestBody CommentDto commentDto){
+    public ResponseEntity<CommentDto> createComment(@PathVariable (value = "postId") String postId,@Valid @RequestBody CommentDto commentDto){
         return new ResponseEntity<>(commentService.createComment(postId,commentDto), HttpStatus.CREATED);
     }
 
@@ -36,7 +37,7 @@ public class CommentController {
 
 
     @PutMapping("/{commentId}/update")
-    public ResponseEntity<CommentDto> updateCommentByIdAndByPostId(@PathVariable (value = "postId") String postId,@PathVariable (value = "commentId") String commentId,@RequestBody CommentDto commentDto){
+    public ResponseEntity<CommentDto> updateCommentByIdAndByPostId(@PathVariable (value = "postId") String postId,@PathVariable (value = "commentId") String commentId,@Valid @RequestBody CommentDto commentDto){
         return ResponseEntity.ok(commentService.updateCommentByCommentIdAndByPostId(commentId,postId,commentDto));
     }
 
