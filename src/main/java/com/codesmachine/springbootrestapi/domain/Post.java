@@ -34,5 +34,9 @@ public class Post {
     @OneToMany(mappedBy = "post",fetch = FetchType.EAGER)
     private Set<Comment> comments;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "category_id")
+    private Category category;
+
 
 }

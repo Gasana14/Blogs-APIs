@@ -1,5 +1,6 @@
 package com.codesmachine.springbootrestapi.controllers;
 
+import com.codesmachine.springbootrestapi.dtos.JwtAuthResponseDto;
 import com.codesmachine.springbootrestapi.dtos.LoginDto;
 import com.codesmachine.springbootrestapi.dtos.RegisterDto;
 import com.codesmachine.springbootrestapi.services.AuthService;
@@ -20,11 +21,22 @@ public class AuthController {
     private AuthService authService;
 
 
-    // Build Login REST API
+//     Build Login REST API Without JWT
+//    @PostMapping(value = {"/login","/signin"})
+//    public ResponseEntity<String> login(@RequestBody LoginDto loginDto){
+//       String response = authService.login(loginDto);
+//        return ResponseEntity.ok(response);
+//    }
+
+    // Build Login REST API With JWT
     @PostMapping(value = {"/login","/signin"})
-    public ResponseEntity<String> login(@RequestBody LoginDto loginDto){
-       String response = authService.login(loginDto);
-        return ResponseEntity.ok(response);
+    public ResponseEntity<JwtAuthResponseDto> login(@RequestBody LoginDto loginDto){
+        String token = authService.login(loginDto);
+
+        JwtAuthResponseDto jwtAuthResponseDto = new JwtAuthResponseDto();
+        jwtAuthResponseDto.setAccessToken(token);
+
+        return ResponseEntity.ok(jwtAuthResponseDto);
     }
 
     // Build Register REST API

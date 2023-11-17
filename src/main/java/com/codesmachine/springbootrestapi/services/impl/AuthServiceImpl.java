@@ -7,6 +7,7 @@ import com.codesmachine.springbootrestapi.dtos.RegisterDto;
 import com.codesmachine.springbootrestapi.exceptions.BlogAPIsException;
 import com.codesmachine.springbootrestapi.repositories.RoleRepository;
 import com.codesmachine.springbootrestapi.repositories.UserRepository;
+import com.codesmachine.springbootrestapi.security.JwtTokenProvider;
 import com.codesmachine.springbootrestapi.services.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -35,14 +36,36 @@ public class AuthServiceImpl implements AuthService {
     @Autowired
     private AuthenticationManager authenticationManager;
 
+    @Autowired
+    private JwtTokenProvider jwtTokenProvider;
+
+
+
+
+
+//    Login without using jwt
+//    @Override
+//    public String login(LoginDto loginDto) {
+//         Authentication authentication =   authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginDto.getUsernameOrEmail(),loginDto.getPassword()));
+//
+//        // store our authentication into Security Context
+//        SecurityContextHolder.getContext().setAuthentication(authentication);
+//
+//        return "User Logged in successfully";
+//    }
+
+
+//  Login with JWT Token
     @Override
     public String login(LoginDto loginDto) {
-         Authentication authentication =   authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginDto.getUsernameOrEmail(),loginDto.getPassword()));
+        Authentication authentication =   authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginDto.getUsernameOrEmail(),loginDto.getPassword()));
 
         // store our authentication into Security Context
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        return "User Logged in successfully";
+        String token = jwtTokenProvider.generateJwtToken(authentication);
+
+        return token;
     }
 
     @Override

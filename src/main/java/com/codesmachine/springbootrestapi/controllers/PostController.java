@@ -69,5 +69,12 @@ public class PostController {
         return ResponseEntity.ok(postService.deletePost(id));
     }
 
+    // Build Get REST API to fetch all posts that belongs to a certain category
+    @GetMapping("/category/{id}")
+    public ResponseEntity<List<PostDto>> getPostsByCategory(@PathVariable(name = "id") String id){
+        List<PostDto> postDtos = postService.getPostsByCategory(id);
+        return ResponseEntity.ok(postDtos);
+    }
+
 
 }

@@ -1,5 +1,6 @@
 package com.codesmachine.springbootrestapi.services;
 
+import com.codesmachine.springbootrestapi.domain.Post;
 import com.codesmachine.springbootrestapi.dtos.PostDto;
 import com.codesmachine.springbootrestapi.dtos.PostPageResponseDto;
 
@@ -17,5 +18,7 @@ public interface PostService {
     PostDto updatePost(PostDto postDto,String id);
 
     String deletePost(String id);
+
+    List<PostDto> getPostsByCategory(String id);
 
 }

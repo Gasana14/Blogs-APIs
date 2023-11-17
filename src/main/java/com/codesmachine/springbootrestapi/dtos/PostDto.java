@@ -32,4 +32,6 @@ public class PostDto {
     @Size(min = 5, message = "Post Content should not have less than 5 characters" )
     private String content;
     private Set<CommentDto> comments;
+
+    private String categoryId;
 }
