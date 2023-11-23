@@ -3,6 +3,7 @@ package com.codesmachine.springbootrestapi.controllers;
 import com.codesmachine.springbootrestapi.dtos.CategoryDto;
 import com.codesmachine.springbootrestapi.services.CategoryService;
 import com.codesmachine.springbootrestapi.services.impl.CategoryServiceImpl;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,6 +23,9 @@ public class CategoryController {
 
 
     // Build REST API to create category and give ONLY Users with ADMIN Role to create this
+    @SecurityRequirement(
+            name = "Bearer Authentication"
+    )
     @PostMapping
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<CategoryDto> createCategory(@RequestBody CategoryDto categoryDto){
@@ -31,6 +35,9 @@ public class CategoryController {
 
 
     // Build REST API to create category and give ONLY Users with ADMIN Role to create this
+    @SecurityRequirement(
+            name = "Bearer Authentication"
+    )
     @PutMapping("/{id}/update")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<CategoryDto> updateCategory(
@@ -56,7 +63,9 @@ public class CategoryController {
         return ResponseEntity.ok(categoryDtoList);
     }
 
-
+    @SecurityRequirement(
+            name = "Bearer Authentication"
+    )
     @DeleteMapping("/{id}/delete")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<String> deleteById(@PathVariable(name = "id") String id){
