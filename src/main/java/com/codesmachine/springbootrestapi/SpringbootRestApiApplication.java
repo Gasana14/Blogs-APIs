@@ -1,11 +1,15 @@
 package com.codesmachine.springbootrestapi;
 
+import com.codesmachine.springbootrestapi.domain.Role;
+import com.codesmachine.springbootrestapi.repositories.RoleRepository;
 import io.swagger.v3.oas.annotations.ExternalDocumentation;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.info.Contact;
 import io.swagger.v3.oas.annotations.info.Info;
 import io.swagger.v3.oas.annotations.info.License;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -30,16 +34,32 @@ import org.springframework.context.annotation.Bean;
 				url = "https://github.com/Gasana14"
 		)
 )
-public class SpringbootRestApiApplication {
+public class SpringbootRestApiApplication implements CommandLineRunner {
 
 	@Bean
 	public ModelMapper modelMapper(){
 		return new ModelMapper();
 	}
 
+	@Autowired
+	private RoleRepository roleRepository;
+
 	public static void main(String[] args) {
 		SpringApplication.run(SpringbootRestApiApplication.class, args);
 		System.out.println("App Running");
 	}
 
+	@Override
+	public void run(String... args) throws Exception {
+//		Role adminRole = new Role();
+//		adminRole.setName("ROLE_ADMIN");
+//		roleRepository.save(adminRole);
+//
+//		Role userRole = new Role();
+//		userRole.setName("ROLE_USER");
+//		roleRepository.save(userRole);
+
+
+
+	}
 }

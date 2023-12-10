@@ -1,6 +1,7 @@
 package com.codesmachine.springbootrestapi.controllers;
 
 import com.codesmachine.springbootrestapi.dtos.PostDto;
+import com.codesmachine.springbootrestapi.dtos.PostDtoV2;
 import com.codesmachine.springbootrestapi.dtos.PostPageResponseDto;
 import com.codesmachine.springbootrestapi.services.impl.PostServiceImpl;
 import com.codesmachine.springbootrestapi.utils.AppConstants;
@@ -15,6 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -41,7 +43,7 @@ public class PostController {
             name = "Bearer Authentication"
     )
     @PreAuthorize("hasRole('ADMIN')")
-    @PostMapping
+    @PostMapping("")
     public ResponseEntity<PostDto> createPost(@Valid @RequestBody PostDto postDto){
         return new ResponseEntity<>(postService.createPost(postDto), HttpStatus.CREATED);
     }
@@ -99,6 +101,52 @@ public class PostController {
     }
 
     // Get Blog Post by id rest api
+// START Version REST APIs by changing URL -------------------------------------------------------------------------
+//    @Operation(
+//            summary = "Get Post By Id REST API",
+//            description = "Get Post By Id REST API is used to find Post from database by id"
+//    )
+//    @ApiResponse(
+//            responseCode = "200",
+//            description = "Http Status 200 Success"
+//    )
+//    @GetMapping("/api/v1/posts/{id}")
+//    public ResponseEntity<PostDto> getPostByIdV1(@PathVariable(name = "id") String postId){
+//        return ResponseEntity.ok(postService.getPostById(postId));
+//    }
+
+
+//    @Operation(
+//            summary = "Get Post By Id REST API",
+//            description = "Get Post By Id REST API is used to find Post from database by id"
+//    )
+//    @ApiResponse(
+//            responseCode = "200",
+//            description = "Http Status 200 Success"
+//    )
+//    @GetMapping("/api/v2/posts/{id}")
+//    public ResponseEntity<PostDtoV2> getPostByIdV2(@PathVariable(name = "id") String postId){
+//        PostDto postDto =postService.getPostById(postId);
+//        PostDtoV2 postDtoV2 = new PostDtoV2();
+//
+//        postDtoV2.setId(postDto.getId());
+//        postDtoV2.setTitle(postDto.getTitle());
+//        postDtoV2.setContent(postDto.getContent());
+//        postDtoV2.setDescription(postDto.getDescription());
+//        postDtoV2.setCategoryId(postDto.getCategoryId());
+//        postDtoV2.setComments(postDto.getComments());
+//        List<String> tags = new ArrayList<>();
+//        tags.add("Java");
+//        tags.add("Python");
+//        postDtoV2.setTags(tags);
+//        return ResponseEntity.ok(postDtoV2);
+//    }
+//
+//    // END Version REST APIs by changing URL ---------------------------------------------------------------------------
+
+
+
+    // START Version REST APIs by Query Param -------------------------------------------------------------------------
     @Operation(
             summary = "Get Post By Id REST API",
             description = "Get Post By Id REST API is used to find Post from database by id"
@@ -107,13 +155,37 @@ public class PostController {
             responseCode = "200",
             description = "Http Status 200 Success"
     )
-    @GetMapping("/{id}")
-    public ResponseEntity<PostDto> getPostById(@PathVariable(name = "id") String postId){
+    @GetMapping(value = "/{id}",params = "version=1")
+    public ResponseEntity<PostDto> getPostByIdV1(@PathVariable(name = "id") String postId){
         return ResponseEntity.ok(postService.getPostById(postId));
     }
+    @Operation(
+            summary = "Get Post By Id REST API",
+            description = "Get Post By Id REST API is used to find Post from database by id"
+    )
+    @ApiResponse(
+            responseCode = "200",
+            description = "Http Status 200 Success"
+    )
+    @GetMapping(value = "/{id}",params = "version=2")
+    public ResponseEntity<PostDtoV2> getPostByIdV2(@PathVariable(name = "id") String postId){
+        PostDto postDto =postService.getPostById(postId);
+        PostDtoV2 postDtoV2 = new PostDtoV2();
 
+        postDtoV2.setId(postDto.getId());
+        postDtoV2.setTitle(postDto.getTitle());
+        postDtoV2.setContent(postDto.getContent());
+        postDtoV2.setDescription(postDto.getDescription());
+        postDtoV2.setCategoryId(postDto.getCategoryId());
+        postDtoV2.setComments(postDto.getComments());
+        List<String> tags = new ArrayList<>();
+        tags.add("Java");
+        tags.add("Python");
+        postDtoV2.setTags(tags);
+        return ResponseEntity.ok(postDtoV2);
+    }
 
-
+    // END Version REST APIs by Query Param ---------------------------------------------------------------------------
 
     // Delete Blog Post rest api
     @Operation(
