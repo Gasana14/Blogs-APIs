@@ -11,6 +11,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.Set;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 @Service
@@ -33,6 +34,8 @@ public class CustomUserDetailsService implements UserDetailsService {
               .map((role)-> new SimpleGrantedAuthority(role.getName())).collect(Collectors.toSet());
 
 
+        System.out.println("Email "+user.getEmail());
+        System.out.println("Password "+user.getPassword());
       // we have to convert the user Entity (User) to UserDetails (Spring security User)
       return new org.springframework.security.core.userdetails.User(user.getEmail(),user.getPassword(),authorities);
     }
